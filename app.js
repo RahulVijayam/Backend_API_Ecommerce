@@ -25,19 +25,23 @@ app.set('view engine', 'ejs')  // For Returning HTML page as a response from the
     app.listen(PORT, () => {
         console.log(`Server Started and Running at ${PORT}`)
     })
-
-
 /*MongoDB and Server Code End */
  
  
 app.use('/user', userRoutes);
 
-//Server Side Rendering
-app.use('/', (req, res) => {
-    res.render('samplePage');
-})
-
 //Client Side Rendering
 app.use('/home', (req, res) => {
     res.json("<p>Message From Client Side</p><h1>Welcome to Ecommerce BackEnd API,</h1><p>Developed using Node.js and Express Framework </p>");
 })
+
+
+ 
+//Server Side Rendering
+app.use('/login', (req, res) => {
+    res.render('login');
+})
+app.use('/', (req, res) => {
+    res.render('samplePage');
+})
+

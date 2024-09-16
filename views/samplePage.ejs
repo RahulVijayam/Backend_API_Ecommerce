@@ -5,9 +5,37 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
  
+    
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css" rel="stylesheet" />
+    <!-- MDB -->
+ <style>
+      .loginSection{
+    margin-top:10%;
+    width: 100%; 
+    max-width: 40%;
+    border: 1px;  
+  }
+  .navbar a {
+    color: white;
+  }
+  .navbar a:hover{
+    color: yellow;
+  }
+ </style>
 </head>
 <body>
-    <h1>Hello Sandeep, I'm Rendering from Server Side</h1>
+  <header >
+    <%- include('components/header'); %>
+  </header>
+  <div align="center" class='container my-5 py-5'> 
+    <h1 style="color: black;">Hola, I'm Rendering from Server Side</h1>
+      
+  </div>
     
 </body>
 </html>

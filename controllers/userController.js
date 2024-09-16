@@ -5,46 +5,53 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const Token = require('../models/Token')
 const sendEmail = require('./sendEmail')
-const crypto = require('crypto')
- 
+const crypto = require('crypto') 
+
 dotenv.config()
 const secretKey = process.env.key;
 
 /* User Registration */
-const userRegister = async (req, res) => {
+const userRegister =  async (req, res) => {
+  
     const { username, email, password, mobile } = req.body;
-    try {
-        const userEmail = await User.findOne({ email }); // This will return User details in  json format of  specific user 
-        if (userEmail) {
-            //console.log(userEmail); 
-            console.log("User Already Exists");
-            return res.status(400).json({ error: "User Already Exist" });
+  
+  try {
+            const userEmail = await User.findOne({ email }); // This will return User details in  json format of  specific user 
+                if (userEmail) {
+                    //console.log(userEmail); 
+                    console.log("User Already Exists");
+                    return res.status(400).json({ error: "User Already Exist" });
 
-        }
+                }
 
-        const hashedpassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            username,
-            email,
-            password: hashedpassword,
-            mobile
-        });
-
-        await newUser.save();
-        const token = await new Token({
-            userId: newUser._id,
-            token: crypto.randomBytes(32).toString("hex")
-        }).save();
-        const url = `${process.env.BASE_URL}user/${newUser._id}/verify/${token.token}`
-        await sendEmail(newUser.email, "Verify Email", url);
+                
 
 
-        return res.status(201).json({ success: "User Registered Successfully, Please Verify Your Account " });
-        console.log("Registered");
+                const hashedpassword = await bcrypt.hash(password, 10);
+                const newUser = new User({
+                    username,
+                    email,
+                    password: hashedpassword,
+                    mobile
+                });
+
+                await newUser.save();
+                const token = await new Token({
+                    userId: newUser._id,
+                    token: crypto.randomBytes(32).toString("hex")
+                }).save();
+                const url = `${process.env.BASE_URL}user/${newUser._id}/verify/${token.token}`
+                await sendEmail(newUser.email, "Verify Email", url);
+
+
+                return res.status(201).json({ success: "User Registered Successfully, Please Verify Your Account " });
+                console.log("Registered");
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: "Internal Server Error" })
+                console.log(error);
+                return res.status(500).json({ error: "Internal Server Error" })
     }
+            
+ 
 
 }
 
@@ -161,12 +168,28 @@ const userLogin = async (req, res) => {
 
             }
             const token_jwt = jwt.sign({ userId: user._id }, secretKey, { expiresIn: "1h" })
-            return res.status(200).json({ success: "Login Successful", token_jwt, user, message: "An Email Sent to your acccount please verify" })
+            return res.status(200).json({ 
+                    success: "Login Successful",
+                    token_jwt, message: "An Email Sent to your acccount please verify", 
+                    User : {
+                        Name : user.username,
+                        Email : user.email,
+                        Mobile : user.mobile,
+                        Verified:user.verified,Role:user.role 
+                    } 
+                })
         }
         else {
             // console.log(email)
             const token_jwt = jwt.sign({ userId: user._id }, secretKey, { expiresIn: "1h" })
-            return res.status(200).json({ success: "Login Successful", token_jwt, user });
+          //  return res.status(200).json({ success: "Login Successful", token_jwt, user });
+          return res.status(200).json({ 
+            success: "Login Successful", 
+            token_jwt,  
+            User : {Name : user.username,Email : user.email,Mobile : user.mobile,Verified:user.verified,Role:user.role } 
+        });
+
+         
         }
 
     }
@@ -177,5 +200,6 @@ const userLogin = async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
 
 module.exports = { userRegister, userLogin, emailVerify, sentEmail };

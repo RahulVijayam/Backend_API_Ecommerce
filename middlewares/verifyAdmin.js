@@ -19,7 +19,8 @@ const verifyAdmin = async(req,res,next)=>{
         }
 
         if(user.role=='admin'){
-            return res.status(200).json({status:true,user})
+          //  return res.status(200).json({status:true,user})
+          return res.status(200).json({'IsAdmin':true})
         }
         else {
             return res.status(401).json({error:"UnAuthorized Access"})

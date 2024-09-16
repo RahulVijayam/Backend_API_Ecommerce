@@ -20,9 +20,9 @@ const verifyToken = async(req,res,next)=>{
         
         //console.log(decoded)
         req.userId = user._id;
-        //return res.status(200).json({ authStatus:true, user})
+        //return res.status(200).json({ authStatus:true, user}) 
 
-        return res.status(200).json({ authStatus:true})
+        return res.status(200).json({ IsTokenValid:true, User : {Name : user.username,Email : user.email,Mobile : user.mobile,Verified:user.verified } })
 
         
         
