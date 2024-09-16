@@ -16,7 +16,7 @@ app.set('view engine', 'ejs')  // For Returning HTML page as a response from the
 
 
 /*MongoDB and Server Code Start */
-    const PORT = 4000;
+    const PORT = 80;
     const mongo_uri = process.env.MONGO_URI
     mongoose.connect(mongo_uri)
         .then(() => console.log("MongoDB Connected Succesfully!"))
