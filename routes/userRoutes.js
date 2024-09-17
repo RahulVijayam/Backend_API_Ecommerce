@@ -9,8 +9,9 @@ const router = express.Router()
 
 
 router.post('/add', userController.userRegister);
+
 router.post('/login',userController.userLogin);
-router.get('/verifytoken/',verifyToken)
+router.get('/verifytoken/',verifyToken);
 router.get('/verifyadmin/',verifyAdmin)
 router.get('/sentEmail/',userController.sentEmail)
 
