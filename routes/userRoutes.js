@@ -8,7 +8,7 @@ const validateInput = require('../middlewares/validateInput')
 const router = express.Router()
 
 
-router.post('/add', validateInput,userController.userRegister);
+router.post('/add', userController.userRegister);
 router.post('/login',userController.userLogin);
 router.get('/verifytoken/',verifyToken)
 router.get('/verifyadmin/',verifyAdmin)
